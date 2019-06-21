@@ -19,7 +19,7 @@ public class ObjectHandler extends ChannelInboundHandlerAdapter {
 	public void channelRead(ChannelHandlerContext ctx, Object object) throws Exception {
 
 		//服务端 接收处理数据
-		Message message = (Message) object;
+		Message message = (Message) object; //解析消息
 		String value = message.getValue();
 		System.out.println(value);
 		System.out.println(object.toString());
