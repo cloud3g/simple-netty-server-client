@@ -5,35 +5,33 @@ import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.channel.EventLoopGroup;
-import br.com.fredericci.iot.common.Message;
-import io.netty.util.ReferenceCountUtil;
 
 import java.net.InetAddress;
 
-public class ObjectHandler extends ChannelInboundHandlerAdapter {
+public class SocketHandler extends ChannelInboundHandlerAdapter {
 
 	private EventLoopGroup bossGroup;
 	private EventLoopGroup workerGroup;
 
-	public ObjectHandler(EventLoopGroup bossGroup, EventLoopGroup workerGroup) {
-		this.bossGroup = bossGroup;
-		this.workerGroup = workerGroup;
-	}
+//	public ObjectHandler(EventLoopGroup bossGroup, EventLoopGroup workerGroup) {
+//		this.bossGroup = bossGroup;
+//		this.workerGroup = workerGroup;
+//	}
 
 	@Override
-	public void channelRead(ChannelHandlerContext ctx, Object object) throws Exception {
+	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
 		////SocketHandler
-//		ByteBuf message = (ByteBuf) object;
-//		byte[] response = new byte[message.readableBytes()];
-//		message.readBytes(response);
-//		System.out.println("receive client info: " + new String(response));
-//
-//		String sendContent = "hello client ,im server, this is u say:" + new String(response);
-//		ByteBuf seneMsg = Unpooled.buffer(sendContent.length());
-//		seneMsg.writeBytes(sendContent.getBytes());
-//
-//		ctx.writeAndFlush(seneMsg);
-//		System.out.println("send info to client:" + sendContent);
+		ByteBuf message = (ByteBuf) msg;
+		byte[] response = new byte[message.readableBytes()];
+		message.readBytes(response);
+		System.out.println("receive client info: " + new String(response));
+
+		String sendContent = "hello client ,im server, this is u say:" + new String(response);
+		ByteBuf seneMsg = Unpooled.buffer(sendContent.length());
+		seneMsg.writeBytes(sendContent.getBytes());
+
+		ctx.writeAndFlush(seneMsg);
+		System.out.println("send info to client:" + sendContent);
 		////SocketHandler
 
 		//服务端 接收处理数据
@@ -44,10 +42,6 @@ public class ObjectHandler extends ChannelInboundHandlerAdapter {
 
 //		String message = object.toString();
 //		System.out.println(message);
-
-		System.out.println("Netty tcp server receive msg : " + object);
-//        ctx.writeAndFlush(new Integer(2001));
-//        ctx.close();
 
 		//关闭处理
 //		if( value.equalsIgnoreCase("bye")) {

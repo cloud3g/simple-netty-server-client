@@ -8,8 +8,10 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.handler.codec.MessageToByteEncoder;
 import io.netty.handler.codec.serialization.ObjectEncoder;
 import br.com.fredericci.iot.common.Message;
+import io.netty.handler.codec.string.StringEncoder;
 
 public class Client {
 
@@ -27,7 +29,8 @@ public class Client {
 		bootstrap.handler(new ChannelInitializer<SocketChannel>() {
 			@Override
 			public void initChannel(SocketChannel ch) throws Exception {
-				ch.pipeline().addLast(new ObjectEncoder()); //ObjectEncoder=client / ObjectDecoder=server
+				//ch.pipeline().addLast(new ObjectEncoder()); //ObjectEncoder=client / ObjectDecoder=server
+				ch.pipeline().addLast(new StringEncoder());
 			}
 		});
 
@@ -37,6 +40,10 @@ public class Client {
 	}
 	
 	public void send(Message message) {
+		channelFuture.channel().writeAndFlush(message);
+	}
+
+	public void send(String message) {
 		channelFuture.channel().writeAndFlush(message);
 	}
 
